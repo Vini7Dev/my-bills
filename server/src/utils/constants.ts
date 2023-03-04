@@ -1,6 +1,6 @@
 import path from 'path'
 
-// Database
+// Database Connection
 export const DATABASE_CLIENT = process.env.DATABASE_CLIENT ?? 'pg'
 export const DATABASE_HOST = process.env.DATABASE_HOST ?? 'localhost'
 export const DATABASE_PORT = parseInt(process.env.DATABASE_PORT ?? '5432')
@@ -13,3 +13,8 @@ export const DATABASE_MIGRATIONS_PATH = path.resolve(
   'database',
   'migrations'
 )
+
+// Database Tables
+export const DATABASE_TABLES = {
+  USERS: 'users',
+}
