@@ -9,7 +9,7 @@ export const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD ?? 'postgres'
 export const DATABASE_NAME = process.env.DATABASE_NAME ?? 'my-bills'
 export const DATABASE_MIGRATIONS_PATH = path.resolve(
   __dirname,
-  'src',
+  '..',
   'database',
   'migrations'
 )
