@@ -26,7 +26,12 @@ export const API_RESPONSES = {
   successCreate: (model: string) => ({ message: `${model} created successfully!` }),
   successUpdate: (model: string) => ({ message: `${model} updated successfully!` }),
   successDelete: (model: string) => ({ message: `${model} deleted successfully!` }),
+  successAuthToken: (token: string) => ({ message: 'Authentication successfully created!', token })
 }
 
 // Hash Provider
 export const HASH_SALT = parseInt(process.env.HASH_SALT ?? '8')
+
+// JSON Web Token
+export const JWT_SECRET = process.env.JWT_SECRET ?? 'default'
+export const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN ?? '1d'
