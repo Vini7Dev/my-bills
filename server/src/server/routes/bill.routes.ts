@@ -10,7 +10,7 @@ billRoutes.get('/', billsController.index)
 
 billRoutes.post('/', billsController.create)
 
-billRoutes.put('/:id', billsController.update)
+billRoutes.patch('/:id', billsController.update)
 
 billRoutes.delete('/:id', billsController.delete)
 

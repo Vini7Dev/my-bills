@@ -10,7 +10,7 @@ userRoutes.get('/:id', usersController.show)
 
 userRoutes.post('/', usersController.create)
 
-userRoutes.put('/:id', usersController.update)
+userRoutes.patch('/:id', usersController.update)
 
 userRoutes.delete('/:id', usersController.delete)
 
