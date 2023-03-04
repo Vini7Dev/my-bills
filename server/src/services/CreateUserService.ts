@@ -16,8 +16,6 @@ export class CreateUserService {
   }: IServiceProps): Promise<{ message: string }> {
     const userWithSameUsername = await this.usersRepository.findUserByUsername(username)
 
-    console.log('===> userWithSameUsername', userWithSameUsername)
-
     if (userWithSameUsername) {
       throw new Error('This username already exists!')
     }
