@@ -1,3 +1,4 @@
+import { AppError } from '../errors/AppError'
 import { UsersRepository } from '../repositories/UsersRepository'
 
 interface IServiceProps {
@@ -17,7 +18,7 @@ export class CreateUserService {
     const userWithSameUsername = await this.usersRepository.findUserByUsername(username)
 
     if (userWithSameUsername) {
-      throw new Error('This username already exists!')
+      throw new AppError('This username already exists!')
     }
 
     await this.usersRepository.create({
