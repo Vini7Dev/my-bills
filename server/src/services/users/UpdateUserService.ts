@@ -4,6 +4,7 @@ import { UsersRepository } from '../../repositories/UsersRepository'
 import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
 interface IServiceProps {
+  authenticatedUserId: number
   userId: string
   name?: string
   username?: string
@@ -15,6 +16,7 @@ export class UpdateUserService {
   private usersRepository = new UsersRepository()
 
   public async execute({
+    authenticatedUserId,
     userId,
     name,
     username,
@@ -25,6 +27,10 @@ export class UpdateUserService {
 
     if (!userToUpdate) {
       throw new AppError('User not found!', 404)
+    }
+
+    if (authenticatedUserId !== userToUpdate.id) {
+      throw new AppError('You have no permission to update this profile!', 403)
     }
 
     const passwordMatch = await HashProvider.validateHash({

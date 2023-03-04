@@ -7,12 +7,15 @@ import { UpdateUserService } from '../services/users/UpdateUserService'
 
 export class UsersController {
   public async show(request: Request, response: Response): Promise<Response> {
+    const { id: authenticatedUserId } = request.user
+
     const { id: userId } = request.params
 
     const getProfileDataService = new GetProfileDataService()
 
     const findedUser = await getProfileDataService.execute({
       userId,
+      authenticatedUserId,
     })
 
     return response.json(findedUser).status(200)
@@ -37,6 +40,8 @@ export class UsersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
+    const { id: authenticatedUserId } = request.user
+
     const { id: userId } = request.params
 
     const {
@@ -49,6 +54,7 @@ export class UsersController {
     const updateUserService = new UpdateUserService()
 
     const responseMessage = await updateUserService.execute({
+      authenticatedUserId,
       userId,
       name,
       username,
@@ -60,11 +66,14 @@ export class UsersController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
+    const { id: authenticatedUserId } = request.user
+
     const { id: userId } = request.params
 
     const deleteUserService = new DeleteUserService()
 
     const responseMessage = await deleteUserService.execute({
+      authenticatedUserId,
       userId,
     })
 

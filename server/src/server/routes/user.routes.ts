@@ -1,17 +1,18 @@
 import { Router } from 'express'
 
 import { UsersController } from '../../controllers/UsersController'
+import { ensureAuthenticated } from '../middlewares/ensureAuthenticated'
 
 const usersController = new UsersController()
 
 const userRoutes = Router()
 
-userRoutes.get('/:id', usersController.show)
-
 userRoutes.post('/', usersController.create)
 
-userRoutes.patch('/:id', usersController.update)
+userRoutes.get('/:id', ensureAuthenticated, usersController.show)
 
-userRoutes.delete('/:id', usersController.delete)
+userRoutes.patch('/:id', ensureAuthenticated, usersController.update)
+
+userRoutes.delete('/:id', ensureAuthenticated, usersController.delete)
 
 export default userRoutes
