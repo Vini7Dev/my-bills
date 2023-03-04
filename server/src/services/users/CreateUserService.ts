@@ -1,5 +1,6 @@
 import { AppError } from '../../errors/AppError'
 import { UsersRepository } from '../../repositories/UsersRepository'
+import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
 interface IServiceProps {
   name: string
@@ -14,7 +15,7 @@ export class CreateUserService {
     name,
     username,
     password,
-  }: IServiceProps): Promise<{ message: string }> {
+  }: IServiceProps): Promise<IApiResponseMessage> {
     const userWithSameUsername = await this.usersRepository.findUserByUsername(username)
 
     if (userWithSameUsername) {
@@ -27,6 +28,6 @@ export class CreateUserService {
       password,
     })
 
-    return { message: 'Successfully registered user!' }
+    return API_RESPONSES.successCreate(DATABASE_MODELS.USER)
   }
 }

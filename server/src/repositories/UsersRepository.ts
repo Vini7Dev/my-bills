@@ -2,10 +2,10 @@ import { connection } from '../database/connection'
 import { ICreateUserDTO } from '../dtos/users/ICreateUserDTO'
 import { IUpdateUserDTO } from '../dtos/users/IUpdateUserDTO'
 import { User } from '../models/User'
-import { DATABASE_TABLES } from '../utils/constants'
+import { DATABASE_MODELS } from '../utils/constants'
 
 export class UsersRepository {
-  private usersTableConnection = connection.table(DATABASE_TABLES.USERS)
+  private usersTableConnection = connection.table(DATABASE_MODELS.USERS)
 
   public async findUserById(id: string): Promise<User> {
     const findedUser = await this.usersTableConnection

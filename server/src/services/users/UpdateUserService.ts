@@ -1,5 +1,6 @@
 import { AppError } from '../../errors/AppError'
 import { UsersRepository } from '../../repositories/UsersRepository'
+import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
 interface IServiceProps {
   userId: string
@@ -18,7 +19,7 @@ export class UpdateUserService {
     username,
     password,
     currentPassword,
-  }: IServiceProps): Promise<{ message: string }> {
+  }: IServiceProps): Promise<IApiResponseMessage> {
     const userToDelete = await this.usersRepository.findUserById(userId)
 
     if (!userToDelete) {
@@ -38,6 +39,6 @@ export class UpdateUserService {
 
     await this.usersRepository.update(updatedUserContent)
 
-    return { message: 'User updated successfully!' }
+    return API_RESPONSES.successUpdate(DATABASE_MODELS.USER)
   }
 }

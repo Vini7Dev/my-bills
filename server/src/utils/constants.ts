@@ -15,6 +15,15 @@ export const DATABASE_MIGRATIONS_PATH = path.resolve(
 )
 
 // Database Tables
-export const DATABASE_TABLES = {
+export const DATABASE_MODELS = {
+  USER: 'User',
   USERS: 'users',
+}
+
+// Api Responses
+export const API_RESPONSES = {
+  successRetrieve: (model: string, data: any) => ({ message: `${model} retrieve successfully!`, data }),
+  successCreate: (model: string) => ({ message: `${model} created successfully!` }),
+  successUpdate: (model: string) => ({ message: `${model} updated successfully!` }),
+  successDelete: (model: string) => ({ message: `${model} deleted successfully!` }),
 }

@@ -1,5 +1,6 @@
 import { AppError } from '../../errors/AppError'
 import { UsersRepository } from '../../repositories/UsersRepository'
+import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
 interface IServiceProps {
   userId: string
@@ -8,7 +9,7 @@ interface IServiceProps {
 export class DeleteUserService {
   private usersRepository = new UsersRepository()
 
-  public async execute({ userId }: IServiceProps): Promise<{ message: string }> {
+  public async execute({ userId }: IServiceProps): Promise<IApiResponseMessage> {
     const userToDelete = await this.usersRepository.findUserById(userId)
 
     if (!userToDelete) {
@@ -17,6 +18,6 @@ export class DeleteUserService {
 
     await this.usersRepository.delete(userId)
 
-    return { message: 'User deleted successfully!' }
+    return API_RESPONSES.successDelete(DATABASE_MODELS.USER)
   }
 }
