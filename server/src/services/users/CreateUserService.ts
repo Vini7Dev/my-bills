@@ -1,4 +1,5 @@
 import { AppError } from '../../errors/AppError'
+import { HashProvider } from '../../providers/HashProvider'
 import { UsersRepository } from '../../repositories/UsersRepository'
 import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
@@ -22,10 +23,12 @@ export class CreateUserService {
       throw new AppError('This username already exists!')
     }
 
+    const passwordHash = await HashProvider.createHash({ toHash: password })
+
     await this.usersRepository.create({
       name,
       username,
-      password,
+      password: passwordHash,
     })
 
     return API_RESPONSES.successCreate(DATABASE_MODELS.USER)

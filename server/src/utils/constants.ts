@@ -27,3 +27,6 @@ export const API_RESPONSES = {
   successUpdate: (model: string) => ({ message: `${model} updated successfully!` }),
   successDelete: (model: string) => ({ message: `${model} deleted successfully!` }),
 }
+
+// Hash Provider
+export const HASH_SALT = parseInt(process.env.HASH_SALT ?? '8')

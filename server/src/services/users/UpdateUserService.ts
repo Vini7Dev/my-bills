@@ -1,4 +1,5 @@
 import { AppError } from '../../errors/AppError'
+import { HashProvider } from '../../providers/HashProvider'
 import { UsersRepository } from '../../repositories/UsersRepository'
 import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
@@ -20,21 +21,30 @@ export class UpdateUserService {
     password,
     currentPassword,
   }: IServiceProps): Promise<IApiResponseMessage> {
-    const userToDelete = await this.usersRepository.findUserById(userId)
+    const userToUpdate = await this.usersRepository.findUserById(userId)
 
-    if (!userToDelete) {
+    if (!userToUpdate) {
       throw new AppError('User not found!', 404)
     }
 
-    if (userToDelete.password !== currentPassword) {
+    const passwordMatch = await HashProvider.validateHash({
+      noHash: currentPassword,
+      hashed: userToUpdate.password,
+    })
+
+    if (!passwordMatch) {
       throw new AppError('Invalid current password!', 403)
     }
 
+    const newPassword = password
+      ? await HashProvider.createHash({ toHash: password })
+      : userToUpdate.password
+
     const updatedUserContent = {
       id: userId,
-      name: name ?? userToDelete.name,
-      username: username ?? userToDelete.username,
-      password: password ?? userToDelete.password,
+      name: name ?? userToUpdate.name,
+      username: username ?? userToUpdate.username,
+      password: newPassword,
     }
 
     await this.usersRepository.update(updatedUserContent)
