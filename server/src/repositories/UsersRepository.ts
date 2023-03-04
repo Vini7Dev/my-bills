@@ -28,11 +28,17 @@ export class UsersRepository {
     name,
     username,
     password,
-  }: ICreateUserDTO) {
+  }: ICreateUserDTO): Promise<void> {
     await this.usersTableConnection.insert({
       name,
       username,
       password,
     })
+  }
+
+  public async delete(id: string): Promise<void> {
+    await this.usersTableConnection
+      .where({ id })
+      .delete()
   }
 }
