@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { CreateUserService } from '../services/users/CreateUserService'
 import { DeleteUserService } from '../services/users/DeleteUserService'
 import { GetProfileDataService } from '../services/users/GetProfileDataService'
+import { UpdateUserService } from '../services/users/UpdateUserService'
 
 export class UsersController {
   public async show(request: Request, response: Response): Promise<Response> {
@@ -36,7 +37,26 @@ export class UsersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    return response.json({})
+    const { id: userId } = request.params
+
+    const {
+      name,
+      username,
+      password,
+      currentPassword,
+    } = request.body
+
+    const updateUserService = new UpdateUserService()
+
+    const responseMessage = await updateUserService.execute({
+      userId,
+      name,
+      username,
+      password,
+      currentPassword,
+    })
+
+    return response.json(responseMessage).status(204)
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
@@ -48,6 +68,6 @@ export class UsersController {
       userId,
     })
 
-    return response.json(responseMessage).status(200)
+    return response.json(responseMessage).status(204)
   }
 }

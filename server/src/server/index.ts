@@ -21,10 +21,10 @@ server.use((
   __: NextFunction,
 ): Response => {
   if (error instanceof AppError) {
-    return response.status(error.code).json({ error: error.message });
+    return response.status(error.code).json({ error: error.message })
   }
 
-  return response.status(500).json({ error: `Internal server error: ${error.message}` });
+  return response.status(500).json({ error: `Internal server error: ${error.message}` })
 })
 
 server.listen(3333, () => {
