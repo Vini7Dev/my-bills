@@ -18,6 +18,8 @@ export const DATABASE_MIGRATIONS_PATH = path.resolve(
 export const DATABASE_MODELS = {
   USER: 'User',
   USERS: 'users',
+  BILL: 'Bill',
+  BILLS: 'bills'
 }
 
 // Api Responses
