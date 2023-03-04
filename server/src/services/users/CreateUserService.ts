@@ -1,5 +1,5 @@
-import { AppError } from '../errors/AppError'
-import { UsersRepository } from '../repositories/UsersRepository'
+import { AppError } from '../../errors/AppError'
+import { UsersRepository } from '../../repositories/UsersRepository'
 
 interface IServiceProps {
   name: string

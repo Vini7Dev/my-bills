@@ -1,10 +1,19 @@
 import { Request, Response } from 'express'
 
-import { CreateUserService } from '../services/CreateUserService'
+import { CreateUserService } from '../services/users/CreateUserService'
+import { GetProfileDataService } from '../services/users/GetProfileDataService'
 
 export class UsersController {
   public async show(request: Request, response: Response): Promise<Response> {
-    return response.json({})
+    const { id: userId } = request.params
+
+    const getProfileDataService = new GetProfileDataService()
+
+    const findedUser = await getProfileDataService.execute({
+      userId,
+    })
+
+    return response.json(findedUser).status(200)
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
