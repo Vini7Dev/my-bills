@@ -5,23 +5,15 @@ import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
 interface IServiceProps {
   authenticatedUserId: number
-  description: string
-  date: string
-  value: number
-  origin: BillOrigins
 }
 
-export class CreateBillService {
-  private billsRepository = new BillsRepository()
-
+export class GetProfileBillsService {
   private usersRepository = new UsersRepository()
 
+  private billsRepository = new BillsRepository()
+
   public async execute({
-    authenticatedUserId,
-    description,
-    date,
-    value,
-    origin,
+    authenticatedUserId
   }: IServiceProps): Promise<IApiResponseMessage> {
     const userOwner = await this.usersRepository.findUserById(authenticatedUserId)
 
@@ -29,14 +21,8 @@ export class CreateBillService {
       throw new AppError('User not found!', 404)
     }
 
-    await this.billsRepository.create({
-      user_id: userOwner.id,
-      description,
-      date,
-      value,
-      origin,
-    })
+    const userBills = await this.billsRepository.getByUserId(userOwner.id)
 
-    return API_RESPONSES.successCreate(DATABASE_MODELS.BILL)
+    return API_RESPONSES.successRetrieve(DATABASE_MODELS.BILL, userBills)
   }
 }
