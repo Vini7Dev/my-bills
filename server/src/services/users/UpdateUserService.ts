@@ -5,7 +5,7 @@ import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
 interface IServiceProps {
   authenticatedUserId: number
-  userId: string
+  userId: number
   name?: string
   username?: string
   password?: string

@@ -5,7 +5,7 @@ import { removeObjectAttribute } from '../../utils/removeObjectAttribute'
 
 interface IServiceProps {
   authenticatedUserId: number
-  userId: string
+  userId: number
 }
 
 export class GetProfileDataService {

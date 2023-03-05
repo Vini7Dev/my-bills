@@ -14,8 +14,8 @@ export class UsersController {
     const getProfileDataService = new GetProfileDataService()
 
     const findedUser = await getProfileDataService.execute({
-      userId,
       authenticatedUserId,
+      userId: Number(userId),
     })
 
     return response.json(findedUser).status(200)
@@ -55,7 +55,7 @@ export class UsersController {
 
     const responseMessage = await updateUserService.execute({
       authenticatedUserId,
-      userId,
+      userId: Number(userId),
       name,
       username,
       password,
@@ -74,7 +74,7 @@ export class UsersController {
 
     const responseMessage = await deleteUserService.execute({
       authenticatedUserId,
-      userId,
+      userId: Number(userId),
     })
 
     return response.json(responseMessage).status(204)

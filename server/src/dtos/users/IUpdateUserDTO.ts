@@ -1,5 +1,5 @@
 export interface IUpdateUserDTO {
-  id: string
+  id: number
   name?: string
   username?: string
   password?: string
