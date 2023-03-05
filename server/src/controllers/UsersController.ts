@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import { CreateUserService } from '../services/users/CreateUserService'
 import { DeleteUserService } from '../services/users/DeleteUserService'
-import { GetProfileDataService } from '../services/users/GetProfileDataService'
+import { GetUserDataService } from '../services/users/GetUserDataService'
 import { UpdateUserService } from '../services/users/UpdateUserService'
 
 export class UsersController {
@@ -11,9 +11,9 @@ export class UsersController {
 
     const { id: userId } = request.params
 
-    const getProfileDataService = new GetProfileDataService()
+    const getUserDataService = new GetUserDataService()
 
-    const findedUser = await getProfileDataService.execute({
+    const findedUser = await getUserDataService.execute({
       authenticatedUserId,
       userId: Number(userId),
     })

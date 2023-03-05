@@ -8,7 +8,7 @@ interface IServiceProps {
   userId: number
 }
 
-export class GetProfileDataService {
+export class GetUserDataService {
   private usersRepository = new UsersRepository()
 
   public async execute({
