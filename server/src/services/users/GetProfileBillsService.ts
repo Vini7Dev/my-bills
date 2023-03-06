@@ -5,6 +5,10 @@ import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
 
 interface IServiceProps {
   authenticatedUserId: number
+  afterDate: string
+  beforeDate: string
+  currentPage?: number
+  perPage?: number
 }
 
 export class GetProfileBillsService {
@@ -13,15 +17,29 @@ export class GetProfileBillsService {
   private billsRepository = new BillsRepository()
 
   public async execute({
-    authenticatedUserId
+    authenticatedUserId,
+    afterDate,
+    beforeDate,
+    currentPage,
+    perPage,
   }: IServiceProps): Promise<IApiResponseMessage> {
+    if (!afterDate || !beforeDate) {
+      throw new AppError('You must provide "afterDate" and "beforeDate" inputs!')
+    }
+
     const userOwner = await this.usersRepository.findUserById(authenticatedUserId)
 
     if (!userOwner) {
       throw new AppError('User not found!', 404)
     }
 
-    const userBills = await this.billsRepository.getByUserId(userOwner.id)
+    const userBills = await this.billsRepository.getByUserId({
+      user_id: userOwner.id,
+      afterDate,
+      beforeDate,
+      currentPage,
+      perPage,
+    })
 
     return API_RESPONSES.successRetrieve(DATABASE_MODELS.BILL, userBills)
   }

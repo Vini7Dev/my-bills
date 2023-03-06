@@ -24,6 +24,8 @@ server.use((
     return response.status(error.code).json({ error: error.message })
   }
 
+  console.error(error)
+
   return response.status(500).json({ error: `Internal server error: ${error.message}` })
 })
 

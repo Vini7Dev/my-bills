@@ -1,4 +1,5 @@
 import knex from 'knex'
+import { attachPaginate } from 'knex-paginate'
 
 import {
   DATABASE_CLIENT,
@@ -19,3 +20,5 @@ export const connection = knex({
     database : DATABASE_NAME,
   }
 })
+
+attachPaginate()
