@@ -1,6 +1,6 @@
 import { compare, hash } from 'bcrypt'
 
-import { HASH_SALT } from '../utils/constants'
+import { HASH_SALT } from '../../utils/constants'
 
 interface ICreateHashProps {
   toHash: string

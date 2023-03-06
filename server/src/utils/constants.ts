@@ -11,7 +11,7 @@ export const DATABASE_MIGRATIONS_PATH = path.resolve(
   __dirname,
   '..',
   'database',
-  'migrations'
+  'migrations',
 )
 
 // Database Tables
@@ -19,7 +19,7 @@ export const DATABASE_MODELS = {
   USER: 'User',
   USERS: 'users',
   BILL: 'Bill',
-  BILLS: 'bills'
+  BILLS: 'bills',
 }
 
 // Api Responses
@@ -37,3 +37,6 @@ export const HASH_SALT = parseInt(process.env.HASH_SALT ?? '8')
 // JSON Web Token
 export const JWT_SECRET = process.env.JWT_SECRET ?? 'default'
 export const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN ?? '1d'
+
+// Multer
+export const MULTER_TEMP_FILE = './tmp'
