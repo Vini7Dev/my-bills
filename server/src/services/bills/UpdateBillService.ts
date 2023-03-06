@@ -1,7 +1,7 @@
 import { AppError } from '../../errors/AppError'
 import { BillsRepository } from '../../repositories/BillsRepository'
 import { UsersRepository } from '../../repositories/UsersRepository'
-import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
+import { API_RESPONSES, DATABASE_MODELS, EXCEPTION_CODES } from '../../utils/constants'
 
 interface IServiceProps {
   authenticatedUserId: number,
@@ -11,6 +11,10 @@ interface IServiceProps {
   value?: number,
   origin?: BillOrigins,
 }
+
+const USER_NOT_FOUND_ERROR_MESSAGE = 'User not found!'
+const BILL_NOT_FOUND_ERROR_MESSAGE = 'Bill not found!'
+const WITHOUT_PERMISSION_TO_UPDATE_ERROR_MESSAGE = 'You have no permission to delete this bill!'
 
 export class UpdateBillService {
   private billsRepository = new BillsRepository()
@@ -28,17 +32,17 @@ export class UpdateBillService {
     const userOwner = await this.usersRepository.findById(authenticatedUserId)
 
     if (!userOwner) {
-      throw new AppError('User not found!', 404)
+      throw new AppError(USER_NOT_FOUND_ERROR_MESSAGE, EXCEPTION_CODES.NOT_FOUND)
     }
 
     const billToUpdate = await this.billsRepository.findById(billId)
 
     if (!billToUpdate) {
-      throw new AppError('Bill not found!', 404)
+      throw new AppError(BILL_NOT_FOUND_ERROR_MESSAGE, EXCEPTION_CODES.NOT_FOUND)
     }
 
     if (userOwner.id !== billToUpdate.user_id) {
-      throw new AppError('You have no permission to update this bill!', 403)
+      throw new AppError(WITHOUT_PERMISSION_TO_UPDATE_ERROR_MESSAGE, EXCEPTION_CODES.FORBIDDEN)
     }
 
     const updatedUserContent = {

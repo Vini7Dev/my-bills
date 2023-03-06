@@ -31,6 +31,16 @@ export const API_RESPONSES = {
   successAuthToken: (token: string) => ({ message: 'Authentication successfully created!', token })
 }
 
+// Exception codes
+export const EXCEPTION_CODES = {
+  DEFAULT: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+}
+
+
 // Hash Provider
 export const HASH_SALT = parseInt(process.env.HASH_SALT ?? '8')
 

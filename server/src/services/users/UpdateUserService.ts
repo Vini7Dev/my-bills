@@ -1,7 +1,7 @@
 import { AppError } from '../../errors/AppError'
 import { HashProvider } from '../../providers/HashProvider'
 import { UsersRepository } from '../../repositories/UsersRepository'
-import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
+import { API_RESPONSES, DATABASE_MODELS, EXCEPTION_CODES } from '../../utils/constants'
 
 interface IServiceProps {
   authenticatedUserId: number
@@ -11,6 +11,10 @@ interface IServiceProps {
   password?: string
   currentPassword: string
 }
+
+const USER_NOT_FOUND_ERROR_MESSAGE = 'User not found!'
+const WITHOUT_PERMISSION_TO_UPDATE_ERROR_MESSAGE = 'You have no permission to delete this bill!'
+const INVALID_CURRENT_PASSWORD = 'Invalid current password!'
 
 export class UpdateUserService {
   private usersRepository = new UsersRepository()
@@ -26,11 +30,11 @@ export class UpdateUserService {
     const userToUpdate = await this.usersRepository.findById(userId)
 
     if (!userToUpdate) {
-      throw new AppError('User not found!', 404)
+      throw new AppError(USER_NOT_FOUND_ERROR_MESSAGE, EXCEPTION_CODES.NOT_FOUND)
     }
 
     if (authenticatedUserId !== userToUpdate.id) {
-      throw new AppError('You have no permission to update this profile!', 403)
+      throw new AppError(WITHOUT_PERMISSION_TO_UPDATE_ERROR_MESSAGE, EXCEPTION_CODES.FORBIDDEN)
     }
 
     const passwordMatch = await HashProvider.validateHash({
@@ -39,7 +43,7 @@ export class UpdateUserService {
     })
 
     if (!passwordMatch) {
-      throw new AppError('Invalid current password!', 403)
+      throw new AppError(INVALID_CURRENT_PASSWORD, EXCEPTION_CODES.UNAUTHORIZED)
     }
 
     const newPassword = password

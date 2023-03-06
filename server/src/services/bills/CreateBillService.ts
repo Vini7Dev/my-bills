@@ -1,7 +1,7 @@
 import { AppError } from '../../errors/AppError'
 import { BillsRepository } from '../../repositories/BillsRepository'
 import { UsersRepository } from '../../repositories/UsersRepository'
-import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
+import { API_RESPONSES, DATABASE_MODELS, EXCEPTION_CODES } from '../../utils/constants'
 
 interface IServiceProps {
   authenticatedUserId: number
@@ -10,6 +10,8 @@ interface IServiceProps {
   value: number
   origin: BillOrigins
 }
+
+const USER_NOT_FOUND_ERROR_MESSAGE = 'User not found!'
 
 export class CreateBillService {
   private billsRepository = new BillsRepository()
@@ -26,7 +28,7 @@ export class CreateBillService {
     const userOwner = await this.usersRepository.findById(authenticatedUserId)
 
     if (!userOwner) {
-      throw new AppError('User not found!', 404)
+      throw new AppError(USER_NOT_FOUND_ERROR_MESSAGE, EXCEPTION_CODES.NOT_FOUND)
     }
 
     await this.billsRepository.create({

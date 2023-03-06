@@ -1,7 +1,7 @@
 import { AppError } from '../../errors/AppError'
 import { BillsRepository } from '../../repositories/BillsRepository'
 import { UsersRepository } from '../../repositories/UsersRepository'
-import { API_RESPONSES, DATABASE_MODELS } from '../../utils/constants'
+import { API_RESPONSES, DATABASE_MODELS, EXCEPTION_CODES } from '../../utils/constants'
 
 interface IServiceProps {
   authenticatedUserId: number
@@ -10,6 +10,9 @@ interface IServiceProps {
   currentPage?: number
   perPage?: number
 }
+
+const MISSING_PARAMS_ERROR_MESSAGE = 'You must provide "afterDate" and "beforeDate" inputs!'
+const USER_NOT_FOUND_ERROR_MESSAGE = 'User not found!'
 
 export class GetProfileBillsService {
   private usersRepository = new UsersRepository()
@@ -24,13 +27,13 @@ export class GetProfileBillsService {
     perPage,
   }: IServiceProps): Promise<IApiResponseMessage> {
     if (!afterDate || !beforeDate) {
-      throw new AppError('You must provide "afterDate" and "beforeDate" inputs!')
+      throw new AppError(MISSING_PARAMS_ERROR_MESSAGE)
     }
 
     const userOwner = await this.usersRepository.findById(authenticatedUserId)
 
     if (!userOwner) {
-      throw new AppError('User not found!', 404)
+      throw new AppError(USER_NOT_FOUND_ERROR_MESSAGE, EXCEPTION_CODES.NOT_FOUND)
     }
 
     const userBills = await this.billsRepository.findByUserId({

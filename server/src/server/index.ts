@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response } from 'express'
 
 import { AppError } from '../errors/AppError'
 import appRoutes from './routes/index.routes'
+import { EXCEPTION_CODES } from '../utils/constants'
 
 const SERVER_PORT = 3333
 
@@ -26,7 +27,9 @@ server.use((
 
   console.error(error)
 
-  return response.status(500).json({ error: `Internal server error: ${error.message}` })
+  return response
+    .status(EXCEPTION_CODES.INTERNAL_SERVER_ERROR)
+    .json({ error: `Internal server error: ${error.message}` })
 })
 
 server.listen(3333, () => {

@@ -9,6 +9,8 @@ interface IServiceProps {
   password: string
 }
 
+const USERNAME_ALREADY_EXISTS_ERROR_MESSAGE = 'This username already exists!'
+
 export class CreateUserService {
   private usersRepository = new UsersRepository()
 
@@ -20,7 +22,7 @@ export class CreateUserService {
     const userWithSameUsername = await this.usersRepository.findByUsername(username)
 
     if (userWithSameUsername) {
-      throw new AppError('This username already exists!')
+      throw new AppError(USERNAME_ALREADY_EXISTS_ERROR_MESSAGE)
     }
 
     const passwordHash = await HashProvider.createHash({ toHash: password })
