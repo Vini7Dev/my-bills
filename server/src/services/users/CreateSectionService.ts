@@ -17,7 +17,7 @@ export class CreateSectionService {
     username,
     password
   }: IServiceProps): Promise<IApiResponseMessage> {
-    const userData = await this.usersRepository.findUserByUsername(username)
+    const userData = await this.usersRepository.findByUsername(username)
 
     if (!userData) {
       throw new AppError('Invalid credentials!')

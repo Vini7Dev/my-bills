@@ -7,7 +7,7 @@ import { DATABASE_MODELS } from '../utils/constants'
 export class UsersRepository {
   private usersTableConnection = connection.table(DATABASE_MODELS.USERS)
 
-  public async findUserById(id: number): Promise<User> {
+  public async findById(id: number): Promise<User> {
     const findedUser = await this.usersTableConnection
       .select('*')
       .where({ id })
@@ -16,7 +16,7 @@ export class UsersRepository {
     return findedUser
   }
 
-  public async findUserByUsername(username: string): Promise<User | undefined> {
+  public async findByUsername(username: string): Promise<User | undefined> {
     const findedUser = await this.usersTableConnection
       .select('*')
       .where({ username })

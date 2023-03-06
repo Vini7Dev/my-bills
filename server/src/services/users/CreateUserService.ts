@@ -17,7 +17,7 @@ export class CreateUserService {
     username,
     password,
   }: IServiceProps): Promise<IApiResponseMessage> {
-    const userWithSameUsername = await this.usersRepository.findUserByUsername(username)
+    const userWithSameUsername = await this.usersRepository.findByUsername(username)
 
     if (userWithSameUsername) {
       throw new AppError('This username already exists!')

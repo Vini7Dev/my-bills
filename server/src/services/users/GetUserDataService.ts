@@ -15,7 +15,7 @@ export class GetUserDataService {
     authenticatedUserId,
     userId,
   }: IServiceProps): Promise<IApiResponseMessage> {
-    const findedUser = await this.usersRepository.findUserById(userId)
+    const findedUser = await this.usersRepository.findById(userId)
 
     if (!findedUser) {
       throw new AppError('User not found!', 404)

@@ -14,7 +14,7 @@ export class DeleteUserService {
     authenticatedUserId,
     userId,
   }: IServiceProps): Promise<IApiResponseMessage> {
-    const userToDelete = await this.usersRepository.findUserById(userId)
+    const userToDelete = await this.usersRepository.findById(userId)
 
     if (!userToDelete) {
       throw new AppError('User not found!', 404)

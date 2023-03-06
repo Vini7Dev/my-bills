@@ -27,13 +27,13 @@ export class GetProfileBillsService {
       throw new AppError('You must provide "afterDate" and "beforeDate" inputs!')
     }
 
-    const userOwner = await this.usersRepository.findUserById(authenticatedUserId)
+    const userOwner = await this.usersRepository.findById(authenticatedUserId)
 
     if (!userOwner) {
       throw new AppError('User not found!', 404)
     }
 
-    const userBills = await this.billsRepository.getByUserId({
+    const userBills = await this.billsRepository.findByUserId({
       user_id: userOwner.id,
       afterDate,
       beforeDate,

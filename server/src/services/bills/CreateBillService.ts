@@ -23,7 +23,7 @@ export class CreateBillService {
     value,
     origin,
   }: IServiceProps): Promise<IApiResponseMessage> {
-    const userOwner = await this.usersRepository.findUserById(authenticatedUserId)
+    const userOwner = await this.usersRepository.findById(authenticatedUserId)
 
     if (!userOwner) {
       throw new AppError('User not found!', 404)

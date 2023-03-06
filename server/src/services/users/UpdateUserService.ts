@@ -23,7 +23,7 @@ export class UpdateUserService {
     password,
     currentPassword,
   }: IServiceProps): Promise<IApiResponseMessage> {
-    const userToUpdate = await this.usersRepository.findUserById(userId)
+    const userToUpdate = await this.usersRepository.findById(userId)
 
     if (!userToUpdate) {
       throw new AppError('User not found!', 404)
