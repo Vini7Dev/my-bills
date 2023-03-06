@@ -1,6 +1,8 @@
 export class Bill {
   id: number
 
+  user_id: number
+
   description: string
 
   date: string

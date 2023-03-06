@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 
 import { CreateBillService } from '../services/bills/CreateBillService'
+import { DeleteBillService } from '../services/bills/DeleteBillService'
 
 export class BillsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -35,6 +36,17 @@ export class BillsController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    return response.json([])
+    const { id: authenticatedUserId } = request.user
+
+    const { id: billId } = request.params
+
+    const deleteBillService = new DeleteBillService()
+
+    const responseMessage = await deleteBillService.execute({
+      authenticatedUserId,
+      billId: Number(billId),
+    })
+
+    return response.json(responseMessage).status(204)
   }
 }

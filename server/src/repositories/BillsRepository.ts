@@ -7,7 +7,16 @@ import { DATABASE_MODELS } from '../utils/constants'
 export class BillsRepository {
   private billsTableConnection = connection.table(DATABASE_MODELS.BILLS)
 
-  public async getByUserId({
+  public async findById(id: number): Promise<Bill | undefined> {
+    const findedBill = await this.billsTableConnection
+      .select('*')
+      .where({ id })
+      .first()
+
+    return findedBill
+  }
+
+  public async findByUserId({
     user_id,
     afterDate,
     beforeDate,
@@ -37,5 +46,11 @@ export class BillsRepository {
       value,
       origin,
     })
+  }
+
+  public async delete(id: number): Promise<void> {
+    await this.billsTableConnection
+      .where({ id })
+      .delete()
   }
 }
