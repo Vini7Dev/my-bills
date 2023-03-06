@@ -20,7 +20,7 @@ export class DeleteBillService {
     const userOwner = await this.usersRepository.findById(authenticatedUserId)
 
     if (!userOwner) {
-      throw new AppError('You must be authenticated!', 401)
+      throw new AppError('User not found!', 404)
     }
 
     const billToDelete = await this.billsRepository.findById(billId)

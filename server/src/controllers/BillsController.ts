@@ -2,12 +2,9 @@ import { Request, Response } from 'express'
 
 import { CreateBillService } from '../services/bills/CreateBillService'
 import { DeleteBillService } from '../services/bills/DeleteBillService'
+import { UpdateBillService } from '../services/bills/UpdateBillService'
 
 export class BillsController {
-  public async index(request: Request, response: Response): Promise<Response> {
-    return response.json([])
-  }
-
   public async create(request: Request, response: Response): Promise<Response> {
     const { id: authenticatedUserId } = request.user
 
@@ -32,7 +29,29 @@ export class BillsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    return response.json([])
+    const { id: authenticatedUserId } = request.user
+
+    const { id: billId } = request.params
+
+    const {
+      description,
+      date,
+      value,
+      origin,
+    } = request.body
+
+    const updateBillService = new UpdateBillService()
+
+    const responseMessage = await updateBillService.execute({
+      authenticatedUserId,
+      billId: Number(billId),
+      description,
+      date,
+      value: billId && Number(billId),
+      origin,
+    })
+
+    return response.json(responseMessage).status(204)
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {

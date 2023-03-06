@@ -13,8 +13,6 @@ const billRoutes = Router()
 
 billRoutes.use(ensureAuthenticated)
 
-billRoutes.get('/', billsController.index)
-
 billRoutes.post('/', billsController.create)
 
 billRoutes.patch('/:id', billsController.update)

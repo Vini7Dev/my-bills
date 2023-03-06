@@ -1,6 +1,7 @@
 import { connection } from '../database/connection'
 import { ICreateBillDTO } from '../dtos/bills/ICreateBillDTO'
 import { IGetByUserIdDTO } from '../dtos/bills/IGetByUserIdDTO'
+import { IUpdateBillDTO } from '../dtos/bills/IUpdateBillDTO'
 import { Bill } from '../models/Bill'
 import { DATABASE_MODELS } from '../utils/constants'
 
@@ -46,6 +47,24 @@ export class BillsRepository {
       value,
       origin,
     })
+  }
+
+  public async update({
+    id,
+    description,
+    date,
+    value,
+    origin,
+  }: IUpdateBillDTO): Promise<void> {
+    await this.billsTableConnection
+      .where({ id })
+      .update({
+        description,
+        date,
+        value,
+        origin,
+        updated_at: new Date(),
+      })
   }
 
   public async delete(id: number): Promise<void> {
