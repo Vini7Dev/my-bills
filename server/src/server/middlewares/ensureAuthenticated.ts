@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
 
+import authConfig from '../../config/auth'
 import { AppError } from '../../errors/AppError'
-import { JWT_SECRET } from '../../utils/constants'
 
 interface ITokenPayload {
   sub: string
@@ -21,8 +21,10 @@ export const ensureAuthenticated = async (
 
   const [, token] = bearerToken.split(' ')
 
+  const { token: { secret } } = authConfig
+
   try {
-      const { sub: userId } = verify(token, JWT_SECRET) as ITokenPayload
+      const { sub: userId } = verify(token, secret) as ITokenPayload
 
       request.user = {
         id: Number(userId),

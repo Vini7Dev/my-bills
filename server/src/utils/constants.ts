@@ -1,7 +1,7 @@
 import path from 'path'
 
 // Database Connection
-export const DATABASE_CLIENT = process.env.DATABASE_CLIENT ?? 'pg'
+export const DATABASE_CLIENT = process.env.DATABASE_CLIENT ?? 'postgresql'
 export const DATABASE_HOST = process.env.DATABASE_HOST ?? 'localhost'
 export const DATABASE_PORT = parseInt(process.env.DATABASE_PORT ?? '5432')
 export const DATABASE_USER = process.env.DATABASE_USER ?? 'postgres'

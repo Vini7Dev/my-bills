@@ -1,9 +1,10 @@
 import { sign } from 'jsonwebtoken'
 
+import authConfig from '../../config/auth'
 import { AppError } from '../../errors/AppError'
 import { HashProvider } from '../../providers/HashProvider'
 import { UsersRepository } from '../../repositories/UsersRepository'
-import { API_RESPONSES, JWT_EXPIRES_IN, JWT_SECRET } from '../../utils/constants'
+import { API_RESPONSES } from '../../utils/constants'
 
 interface IServiceProps {
   username: string
@@ -32,8 +33,10 @@ export class CreateSectionService {
       throw new AppError('Invalid credentials!')
     }
 
-    const token = sign({}, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN,
+    const { token: { secret, expiresIn } } = authConfig
+
+    const token = sign({}, secret, {
+      expiresIn: expiresIn,
       subject: String(userData.id),
     })
 
